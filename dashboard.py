@@ -10,8 +10,8 @@ st.set_page_config(page_title="AI Traffic Dashboard", layout="wide")
 st.title("🚦 Smart Traffic & AI Analytics Dashboard")
 
 # Auto-refresh functionality
-auto_refresh = st.sidebar.checkbox("🔄 Auto Refresh (5s)", value=True)
-refresh_interval = st.sidebar.slider("Refresh Interval (seconds)", 1, 30, 5)
+auto_refresh = st.sidebar.checkbox("🔄 Auto Refresh (10s)", value=True)
+refresh_interval = st.sidebar.slider("Refresh Interval (seconds)", 5, 60, 10)
 
 if auto_refresh:
     time.sleep(refresh_interval)
