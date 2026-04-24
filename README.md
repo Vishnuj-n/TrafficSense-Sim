@@ -113,7 +113,6 @@ Each traffic record includes:
 - **Plotly**: Advanced visualizations
 - **scikit-learn**: Machine learning
 - **pandas**: Data analysis
-- **pygame**: Sound alerts (optional)
 
 ## Customization
 
