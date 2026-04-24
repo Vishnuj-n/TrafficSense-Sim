@@ -3,16 +3,7 @@ import pandas as pd
 import time
 import random
 from datetime import datetime, timedelta
-import pygame  # For sound alerts
-
-# Initialize sound (optional)
-try:
-    pygame.mixer.init()
-    alert_sound = pygame.mixer.Sound
-    sound_enabled = True
-except:
-    print("⚠️ Sound alerts disabled (pygame not installed)")
-    sound_enabled = False
+# Sound alerts disabled - pygame removed
 
 # WSL FIX: Using explicit 127.0.0.1
 client = MongoClient("mongodb://127.0.0.1:27017/")
@@ -125,28 +116,8 @@ class TrafficAlertSystem:
         return False
     
     def play_alert_sound(self, severity):
-        """Play alert sound based on severity"""
-        if not sound_enabled:
-            return
-        
-        try:
-            if severity == 'CRITICAL':
-                # High-pitched urgent alert
-                frequency = 1000
-                duration = 500
-            elif severity == 'HIGH':
-                frequency = 800
-                duration = 300
-            else:
-                frequency = 600
-                duration = 200
-            
-            # Generate beep sound
-            # Note: This is a simplified version
-            print(f"🔊 ALERT SOUND: {frequency}Hz for {duration}ms")
-            
-        except Exception as e:
-            print(f"Sound error: {e}")
+        """Sound alerts disabled - pygame removed"""
+        print(f"🔊 ALERT: {severity} severity alert (sound disabled)")
 
 def main():
     print("🚨 Traffic Alert System Started")

@@ -36,10 +36,18 @@ if 'event' in df.columns:
 
 # Feature selection
 feature_cols = ['vehicle_count', 'avg_speed', 'hour', 'day_of_week', 'is_weekend']
-if 'weather_rainy' in df.columns:
-    feature_cols.extend(['weather_clear', 'weather_rainy', 'weather_foggy', 'weather_stormy'])
-if 'event_normal' in df.columns:
-    feature_cols.extend(['event_normal', 'event_accident', 'event_marathon', 'event_holiday', 'event_rush_hour'])
+
+# Add weather features if they exist
+weather_features = ['weather_clear', 'weather_rainy', 'weather_foggy', 'weather_stormy']
+for feature in weather_features:
+    if feature in df.columns:
+        feature_cols.append(feature)
+
+# Add event features if they exist
+event_features = ['event_normal', 'event_accident', 'event_marathon', 'event_holiday', 'event_rush_hour']
+for feature in event_features:
+    if feature in df.columns:
+        feature_cols.append(feature)
 
 X = df[feature_cols]
 y = df['congestion']
@@ -90,16 +98,27 @@ def predict_traffic(vehicle_count, avg_speed, hour, day_of_week, weather='clear'
         'is_weekend': 1 if day_of_week >= 5 else 0
     }
     
-    # Add weather features
+    # Add weather features only if they exist in the model
     for w in ['clear', 'rainy', 'foggy', 'stormy']:
-        input_data[f'weather_{w}'] = 1 if w == weather else 0
+        feature_name = f'weather_{w}'
+        if feature_name in feature_cols:
+            input_data[feature_name] = 1 if w == weather else 0
     
-    # Add event features
+    # Add event features only if they exist in the model
     for e in ['normal', 'accident', 'marathon', 'holiday', 'rush_hour']:
-        input_data[f'event_{e}'] = 1 if e == event else 0
+        feature_name = f'event_{e}'
+        if feature_name in feature_cols:
+            input_data[feature_name] = 1 if e == event else 0
     
     # Create DataFrame in correct order
-    input_df = pd.DataFrame([input_data])[feature_cols]
+    input_df = pd.DataFrame([input_data])
+    
+    # Ensure all required columns are present
+    for col in feature_cols:
+        if col not in input_df.columns:
+            input_df[col] = 0
+    
+    input_df = input_df[feature_cols]
     
     # Predict
     prediction = model.predict(input_df)[0]
