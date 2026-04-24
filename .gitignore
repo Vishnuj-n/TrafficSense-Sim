@@ -1,0 +1,11 @@
+# Base ignores
+*.log
+*.tmp
+node_modules/
+
+
+# Added by Forge template
+.env
+.vscode/
+dist/
+build/
